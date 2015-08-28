@@ -1,0 +1,14 @@
+# IDE - Intellij
+*.iml
+idea/
+.idea
+atlassian-ide-plugin.xml
+
+# build artifacts
+*.class
+*.jar
+*.war
+dist
+
+# Mac OS X
+.DS_Store

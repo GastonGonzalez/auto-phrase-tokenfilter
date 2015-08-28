@@ -15,6 +15,7 @@ import org.apache.lucene.analysis.util.CharArraySet;
 import org.apache.lucene.analysis.util.ResourceLoader;
 import org.apache.lucene.analysis.util.ResourceLoaderAware;
 import org.apache.lucene.analysis.util.WordlistLoader;
+import org.apache.lucene.util.Version;
 import org.apache.solr.common.params.SolrParams;
 import org.apache.solr.common.params.ModifiableSolrParams;
 import org.apache.solr.common.util.NamedList;
@@ -110,10 +111,10 @@ public class AutoPhrasingQParserPlugin extends QParserPlugin implements Resource
   }
 	
   private String autophrase( String input ) throws IOException {
-    WhitespaceTokenizer wt = new WhitespaceTokenizer(  new StringReader( input ));
+    WhitespaceTokenizer wt = new WhitespaceTokenizer(Version.LUCENE_45, new StringReader( input ));
     TokenStream ts = wt;
     if (ignoreCase) {
-      ts = new LowerCaseFilter( wt );
+      ts = new LowerCaseFilter(Version.LUCENE_45, wt );
     }
     AutoPhrasingTokenFilter aptf = new AutoPhrasingTokenFilter( ts, phraseSets, false );
     aptf.setReplaceWhitespaceWith( new Character( replaceWhitespaceWith ) );
@@ -143,10 +144,10 @@ public class AutoPhrasingQParserPlugin extends QParserPlugin implements Resource
     if (files.size() > 0) {
       // default stopwords list has 35 or so words, but maybe don't make it that
       // big to start
-      words = new CharArraySet( files.size() * 10, ignoreCase);
+      words = new CharArraySet(Version.LUCENE_45, files.size() * 10, ignoreCase);
       for (String file : files) {
         List<String> wlist = getLines(loader, file.trim());
-    	words.addAll(StopFilter.makeStopSet( wlist, ignoreCase));
+    	words.addAll(StopFilter.makeStopSet(Version.LUCENE_45, wlist, ignoreCase));
       }
     }
     return words;
@@ -160,7 +161,7 @@ public class AutoPhrasingQParserPlugin extends QParserPlugin implements Resource
     if (fileNames == null)
       return Collections.<String>emptyList();
 
-    List<String> result = new ArrayList<>();
+    List<String> result = new ArrayList<String>();
     for (String file : fileNames.split("(?<!\\\\),")) {
       result.add(file.replaceAll("\\\\(?=,)", ""));
     }
