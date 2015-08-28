@@ -1,7 +1,7 @@
 auto-phrase-tokenfilter
 =======================
 
-Lucene Auto Phrase TokenFilter implementation
+Lucene Auto Phrase TokenFilter implementation for hybris 5.4 / Solr 4.6.1
 
 
 Performs "auto phrasing" on a token stream. Auto phrases refer to sequences of tokens that
